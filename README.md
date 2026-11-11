@@ -1,5 +1,7 @@
 # presentacion-3d
 
+![Demo de las escenas 3D](docs/demo.gif)
+
 Skill para Claude Code que crea presentaciones web 3D animadas, para huir de las presentaciones de IA todas iguales (*AI slop*): cada diapositiva lleva una escena 3D viva que cuenta la idea, no un adorno junto al texto.
 
 - Un único HTML que se abre con doble clic (Three.js, sin servidor).
