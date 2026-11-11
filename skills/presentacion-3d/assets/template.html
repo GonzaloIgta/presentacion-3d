@@ -1073,6 +1073,10 @@ function go(i){
   $('#cnt').textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
   $('#prog').style.width=((i+1)/slides.length*100)+'%';history.replaceState(null,'','#'+(i+1));
 }
+function placeCamera(){
+  const zf=Math.max(1,innerWidth>860?1.75/camera.aspect:1.1/(camera.aspect*.95)/(Math.tan(camera.fov*Math.PI/360)/Math.tan(21*Math.PI/180))),cx=camLook.x+(camPos.x-camLook.x)*zf,cy=camLook.y+(camPos.y-camLook.y)*zf,cz=camLook.z+(camPos.z-camLook.z)*zf; /* pantallas poco anchas: la cámara se aleja para que no se recorte el lado derecho */
+  camera.position.set(cx+mx*1.4+Math.sin(T*.15)*.5,cy-my*.9+Math.sin(T*.11)*.25,cz);camera.lookAt(camLook);
+}
 let last=performance.now(),T=0;
 function frame(now){
   /* el primer rAF puede traer una marca de tiempo anterior a performance.now(): sin el clamp, dt y since salen negativos */
@@ -1087,8 +1091,7 @@ function frame(now){
   dg.attributes.position.needsUpdate=true;
   tp.set(...o.cam);tl.set(...o.look);
   const k=1-Math.exp(-dt*2.4);camPos.lerp(tp,k);camLook.lerp(tl,k);
-  const zf=Math.max(1,innerWidth>860?1.75/camera.aspect:1.1/(camera.aspect*.95)/(Math.tan(camera.fov*Math.PI/360)/Math.tan(21*Math.PI/180))),cx=camLook.x+(camPos.x-camLook.x)*zf,cy=camLook.y+(camPos.y-camLook.y)*zf,cz=camLook.z+(camPos.z-camLook.z)*zf; /* pantallas poco anchas: la cámara se aleja para que no se recorte el lado derecho */
-  camera.position.set(cx+mx*1.4+Math.sin(T*.15)*.5,cy-my*.9+Math.sin(T*.11)*.25,cz);camera.lookAt(camLook);
+  placeCamera();
   renderer.render(scene,camera);
   if(auto&&since>(SPEC.autoSeconds||15))go(cur+1>=slides.length?0:cur+1);
   requestAnimationFrame(frame);
@@ -1122,6 +1125,10 @@ if(Q.has('shot')){document.documentElement.classList.add('still');const o=SC[cur
   for(let k=0;k<Math.round(secs/.02);k++){T+=.02;try{o.update(.02,T,k*.02)}catch(e){}fxUpdate(.02)}
   tIn=performance.now()-secs*1000;camPos.set(...o.cam);camLook.set(...o.look)}
 requestAnimationFrame(frame);
+/* __frame(i,secs): devuelve un fotograma JPEG (solo la escena) de la diapositiva i, secs segundos tras entrar. Sirve para montar GIF. */
+window.__frame=(i,secs,q=.9)=>{go(i);if(shift!==0){shift=0;resize()}const o=SC[i];mx=my=0;let tt=0;
+  for(let k=0;k<Math.round(secs/.02);k++){tt+=.02;T+=.02;try{o.update(.02,T,k*.02)}catch(e){}fxUpdate(.02)}
+  camPos.set(...o.cam);camLook.set(...o.look);placeCamera();renderer.render(scene,camera);return renderer.domElement.toDataURL('image/jpeg',q)};
 window.__go=go;
 })();
 </script>
