@@ -1,6 +1,7 @@
 ---
 name: presentacion-3d
-description: Crea presentaciones web 3D animadas (Three.js, un HTML que se abre con doble clic, sin servidor) sobre cualquier temática, con un estilo propio: fondo oscuro, HUD, tipografía condensada, una escena 3D viva por diapositiva (33 disponibles) y navegación por teclado. Úsala cuando el usuario pida una presentación, informe, charla o slides "3D", "animadas", dándote el tema y/o los apartados.
+description: >-
+  Crea presentaciones web 3D animadas (Three.js, un HTML que se abre con doble clic, sin servidor) sobre cualquier temática, con un estilo propio: fondo oscuro, HUD, tipografía condensada, una escena 3D viva por diapositiva (33 disponibles) y navegación por teclado. Úsala cuando el usuario pida una presentación, informe, charla o slides "3D", "animadas", dándote el tema y/o los apartados.
 ---
 
 # Presentación 3D
