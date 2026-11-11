@@ -1126,7 +1126,7 @@ if(Q.has('shot')){document.documentElement.classList.add('still');const o=SC[cur
   tIn=performance.now()-secs*1000;camPos.set(...o.cam);camLook.set(...o.look)}
 requestAnimationFrame(frame);
 /* __frame(i,secs): devuelve un fotograma JPEG (solo la escena) de la diapositiva i, secs segundos tras entrar. Sirve para montar GIF. */
-window.__frame=(i,secs,q=.9)=>{go(i);if(shift!==0){shift=0;resize()}const o=SC[i];mx=my=0;let tt=0;
+window.__frame=(i,secs,q=.9)=>{go(i);if(shift!==0){shift=0;resize()}const o=SC[i];mx=my=0;let tt=0;T=0; /* T=0: el tiempo global empieza en cero para que los fotogramas sean continuos */
   for(let k=0;k<Math.round(secs/.02);k++){tt+=.02;T+=.02;try{o.update(.02,T,k*.02)}catch(e){}fxUpdate(.02)}
   camPos.set(...o.cam);camLook.set(...o.look);placeCamera();renderer.render(scene,camera);return renderer.domElement.toDataURL('image/jpeg',q)};
 window.__go=go;
